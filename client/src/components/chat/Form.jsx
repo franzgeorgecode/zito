@@ -10,26 +10,27 @@ const SendIcon = props => (
 
 export default function Form({ setMessages }) {
 const [message, setMessage] = useState('');
+const [loading, setLoading] = useState(false);
 
 const messageResponse = async () => {
-const { data } = await axios.post('https://zito.onrender.com/message', {
+setLoading(true);
+const { data } = await axios.post('http://localhost:4000/message', {
 message
 });
+setLoading(false);
 setMessages(prev => [
-  ...prev,
-  {
-    msg: data.message,
-    type: 'bot',
-    time: formatRelative(new Date(), new Date())
-  }
+...prev,
+{
+msg: data.message,
+type: 'bot',
+time: formatRelative(new Date(), new Date())
+}
 ]);
 };
 
 const sendMessage = async e => {
 e.preventDefault();
-if (!message) return;
-
-setMessages(prev => [
+if (!message) return;setMessages(prev => [
   ...prev,
   {
     msg: message,
@@ -43,6 +44,10 @@ await messageResponse();
 };
 
 return (
+<>
+{loading ? (
+<span className="text-green-500 ml-2">zito escribiendo...</span>
+) : null}
 <form className="relative flex items-center">
 <input
 type="text"
@@ -52,12 +57,13 @@ className="bg-[#3A3F47] text-white placeholder:text-[#949494] text-sm rounded-2x
 placeholder="Escribe tu pregunta aqui..."
 />
 <button
-     type="submit"
-     onClick={sendMessage}
-     className="ml-2 bg-white hover:opacity-50 active:opacity-100 transition-colors py-2 px-3 rounded-xl"
-   >
+       type="submit"
+       onClick={sendMessage}
+       className="ml-2 bg-white hover:opacity-50 active:opacity-100 transition-colors py-2 px-3 rounded-xl"
+     >
 <SendIcon className="w-5 h-5 fill-[#3A3F47]" />
 </button>
 </form>
+</>
 );
 }

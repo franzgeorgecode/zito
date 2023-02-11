@@ -14,7 +14,7 @@ const [loading, setLoading] = useState(false);
 
 const messageResponse = async () => {
 setLoading(true);
-const { data } = await axios.post('http://localhost:4000/message', {
+const { data } = await axios.post('https://zito.onrender.com/message', {
 message
 });
 setLoading(false);

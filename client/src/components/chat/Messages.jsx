@@ -6,19 +6,21 @@ function Message({ msg, type, time }) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`flex items-center ${
+      className={`flex items-center w-full md:w-600px ${
         type === 'bot' ? 'justify-start' : 'justify-end'
       }`}
     >
       <div
         className={`flex flex-col items-start justify-center text-white rounded-xl p-4 ${
           type === 'bot'
-            ? 'bg-[#3A3F47] rounded-tl-none'
-            : 'bg-[#8AA1FF] rounded-br-none'
+          ? 'bg-[#3A3F47] rounded-tl-none'
+          : 'bg-[#8AA1FF] rounded-br-none'
         }`}
       >
-        <p>{msg}</p>
-        <span className={`text-xs mt-2 ${type === 'bot' && 'text-[#949494]'}`}>
+        <p className="w-full md:w-600px">{msg}</p>
+        <span className={`text-xs mt-2 ${
+          type === 'bot' ? 'text-#949494' : ''
+        }`}>
           {time}
         </span>
       </div>
@@ -36,7 +38,7 @@ export default function Messages({ messages }) {
   useEffect(scrollToBottom, [messages]);
 
   return (
-    <div className="w-[600px] max-h-96 overflow-y-scroll scrollbar-hide space-y-4">
+    <div className="w-full md:w-600px max-h-96 overflow-y-scroll scrollbar-hide space-y-4">
       {messages.length ? (
         messages.map((message, index) => <Message key={index} {...message} />)
       ) : (
